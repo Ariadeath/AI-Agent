@@ -1,12 +1,14 @@
 import os
+from .config import MAX_CHARS
 
 def get_files_info(working_directory, directory=None):
     try:
-        joining_path = os.path.join(working_directory, directory)
-        absolute_joined = os.path.abspath(joining_path)
+        joined_path = os.path.join(working_directory, directory)
+        absolute_joined = os.path.abspath(joined_path)
         absolute_working = os.path.abspath(working_directory)
         if not absolute_joined.startswith(absolute_working):
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
+        
         if not os.path.isdir(absolute_joined):
             return f'Error: "{directory}" is not a directory'
     
@@ -25,5 +27,26 @@ def get_files_info(working_directory, directory=None):
         formated_results = "\n".join(results)
         return formated_results
     
+    except Exception as e:
+        return f"Error: {e}"
+    
+def get_file_content(working_directory, file_path):
+    try:
+        joined_path = os.path.join(working_directory, file_path)
+        absolute_joined = os.path.abspath(joined_path)
+        absolute_working = os.path.abspath(working_directory)
+
+        if not absolute_joined.startswith(absolute_working):
+            return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
+    
+        if not os.path.isfile(absolute_joined):
+            return f'Error: File not found or is not a regular file: "{file_path}"'
+    
+        original_size = os.path.getsize(absolute_joined)
+        with open(absolute_joined, "r") as f:
+            file_content_string = f.read(MAX_CHARS)
+            if original_size > MAX_CHARS:
+                return file_content_string + f'[...File "{file_path}" truncated at 10000 characters]'
+            return file_content_string
     except Exception as e:
         return f"Error: {e}"

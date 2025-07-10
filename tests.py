@@ -1,17 +1,13 @@
-from functions.get_files_info import get_files_info
+from functions.get_files_info import get_files_info, get_file_content
 
-calculator_results = get_files_info("calculator", ".")
-print(f"Result for current directory:")
-print(f"{calculator_results}")
+calc_main_results = get_file_content("calculator", "main.py")
+print("Results for main.py contents")
+print(f"{calc_main_results}")
 
-calc_pkg_results = get_files_info("calculator", "pkg")
-print("Result for 'pkg' directory:")
+calc_pkg_results = get_file_content("calculator", "pkg/calculator.py")
+print("Results for pkg/calculator.py contents")
 print(f"{calc_pkg_results}")
 
-calc_bin_results = get_files_info("calculator", "/bin")
-print("Result for '/bin' directory:")
+calc_bin_results = get_file_content("calculator", "/bin/cat")
+print("Results for bin/cat contents")
 print(f"{calc_bin_results}")
-
-calc_elip_results = get_files_info("calculator", "../")
-print("Result for '../':")
-print(f"{calc_elip_results}")
