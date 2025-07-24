@@ -25,10 +25,10 @@ def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
 
+    user_prompt = " ".join(args)
+    
     if verbose:
         print(f"User prompt: {user_prompt}\n")
-
-    user_prompt = sys.argv[1]
 
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
